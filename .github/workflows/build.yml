@@ -3,21 +3,25 @@ name: Build SAMIX GAMES
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Get source code
         uses: actions/checkout@v4
 
-      - name: Build with OpenOrbis
-        uses: OpenOrbis/toolchain-action@main
-        with:
-          version: v0.5.1
-          command: make
+      - name: Build with OpenOrbis Docker
+        run: |
+          docker run --rm \
+            -v "$GITHUB_WORKSPACE:/workspace" \
+            -w /workspace \
+            openorbisofficial/toolchain:v0.5.1 \
+            make
 
       - name: Save build files
         uses: actions/upload-artifact@v4

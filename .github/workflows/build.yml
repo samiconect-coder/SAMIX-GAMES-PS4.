@@ -18,6 +18,7 @@ jobs:
       - name: Build with OpenOrbis Docker
         run: |
           docker run --rm \
+            --user "$(id -u):$(id -g)" \
             -v "$GITHUB_WORKSPACE:/workspace" \
             -w /workspace \
             openorbisofficial/toolchain:v0.5.1 \
